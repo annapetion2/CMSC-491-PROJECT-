@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initialize button and edittext to xml design
+        //initialize buttons, edittext, and textview
         rosterButton = (Button) findViewById(R.id.button);
         classButton = (Button) findViewById(R.id.button2);
         className = (EditText) findViewById(R.id.editTextText);
@@ -45,11 +45,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent rosterIntent = new Intent(Intent.ACTION_GET_CONTENT);
                 //Adds a category to our intent that makes it only accept files "CATEGORY_OPENABLE"
                 rosterIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                //Set the type of file opened to a .csv file
-                //rosterIntent.setType("text/csv");
+                //Allow the intent to take in any file in the system denoted by "*/*"
                 rosterIntent.setType("*/*");
+                //Define a string array for the intent to take in csv files, this is done after
+                // allowing all files types = "*/*" because trying to select a .csv file with an
+                // initial intent declaration of .setType("text/csv") resulted in greyed-out .csv
+                // files in the user's file explorer
                 String[] mimetypes = {"text/csv", "text/comma-separated-values", "application/csv"};
+                //Add the array of mime_types to our intent, which allow it to successfully return
+                //the listed types of files, via putExtra()
                 rosterIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
+                //Launch the activityresultlauncher with our intent
                 activityResultLauncher.launch(Intent.createChooser(rosterIntent, "Open CSV"));
                 //activityResultLauncher.launch(rosterIntent);
             }
@@ -62,30 +68,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //ActivityResultLauncher for the roster file upload
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                         @Override
                         //ActivityResult o is a passed activity result
                         public void onActivityResult(ActivityResult o) {
+                            //validity check for returned file from user
                             if (o.getResultCode() == RESULT_OK && o.getData() != null) {
-
-                                Intent data = o.getData(); //retrieve the data(intent) from  result
+                                //retrieve the data(intent) from  result
+                                Intent data = o.getData();
+                                //retrieve the uri from the intent data
                                 Uri uriData = data.getData();
+                                //check if uri is empty
                                 if(uriData != null) {
+                                    //Define cursor to extract name from the user's file
                                     Cursor returnCursor =
                                             getContentResolver().query(uriData,
                                                     null, null, null,
                                                     null);
+                                    //Define the index where the file's name is located
                                     int nameIndex = returnCursor.getColumnIndex(
                                             OpenableColumns.DISPLAY_NAME);
+                                    //Move back to the first row
                                     returnCursor.moveToFirst();
-                                    rosterName.setText(returnCursor.getString(nameIndex));
-                                    Log.d("MainActivity", returnCursor.getString(nameIndex));
-                                }else {
+                                    //Set our textview to the file name by indexing the cursor
+                                    rosterName.setText(returnCursor.getString(nameIndex) + '\n' +
+                                            "Imported");
+                                    //Log.d("MainActivity", returnCursor.getString(nameIndex));
+                                }else{
+                                    //if the uri is null then the file was empty or did not import
                                     rosterName.setText("Import failed");
                                 }
                             }else{
+                                //The result code was not valid, or the return intent was empty
                                 Log.d("MainActivity", "ResultCode != RESULT_OK");
                             }
                         }
