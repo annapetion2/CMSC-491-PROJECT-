@@ -20,11 +20,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+/*Need to implement View.OnClickListener because the program cannot utilize ActivityResultLauncher
+for the simple task of displaying text from the edittext to the textview, without the use of
+an intent that mandates a source and a destination. Thus we simply override OnClick without
+the result launcher to avoid the need of an intent.
+*/
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button rosterButton; //declare button to upload csv roster file
     private Button classButton; //declare button to start entering new course name
     private EditText className; //declare edittext to type course name into
     private TextView rosterName; //declare textview for roster file name
+    private TextView classDisplay; //declare textview for new course name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         rosterButton = (Button) findViewById(R.id.button);
         classButton = (Button) findViewById(R.id.button2);
         className = (EditText) findViewById(R.id.editTextText);
+        classDisplay = (TextView) findViewById(R.id.textView2);
         rosterName = (TextView) findViewById(R.id.textView);
+
+        classButton.setOnClickListener(this); //have the activity listen to the add course button
 
         rosterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,51 +70,87 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
         classButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent courseIntent = new Intent();
+                String courseName = className.getText().toString();
+                courseIntent.putExtra("key1", courseName);
+                activityResultLauncher2.launch(courseIntent);
             }
         });
+        */
     }
 
     //ActivityResultLauncher for the roster file upload
     ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        //ActivityResult o is a passed activity result
-                        public void onActivityResult(ActivityResult o) {
-                            //validity check for returned file from user
-                            if (o.getResultCode() == RESULT_OK && o.getData() != null) {
-                                //retrieve the data(intent) from  result
-                                Intent data = o.getData();
-                                //retrieve the uri from the intent data
-                                Uri uriData = data.getData();
-                                //check if uri is empty
-                                if(uriData != null) {
-                                    //Define cursor to extract name from the user's file
-                                    Cursor returnCursor =
-                                            getContentResolver().query(uriData,
-                                                    null, null, null,
-                                                    null);
-                                    //Define the index where the file's name is located
-                                    int nameIndex = returnCursor.getColumnIndex(
-                                            OpenableColumns.DISPLAY_NAME);
-                                    //Move back to the first row
-                                    returnCursor.moveToFirst();
-                                    //Set our textview to the file name by indexing the cursor
-                                    rosterName.setText(returnCursor.getString(nameIndex) + '\n' +
-                                            "Imported");
-                                    //Log.d("MainActivity", returnCursor.getString(nameIndex));
-                                }else{
-                                    //if the uri is null then the file was empty or did not import
-                                    rosterName.setText("Import failed");
-                                }
-                            }else{
-                                //The result code was not valid, or the return intent was empty
-                                Log.d("MainActivity", "ResultCode != RESULT_OK");
-                            }
+                @Override
+                //ActivityResult o is a passed activity result
+                public void onActivityResult(ActivityResult o) {
+                    //validity check for returned file from user
+                    if (o.getResultCode() == RESULT_OK && o.getData() != null) {
+                        //retrieve the data(intent) from  result
+                        Intent data = o.getData();
+                        //retrieve the uri from the intent data
+                        Uri uriData = data.getData();
+                        //check if uri is empty
+                        if (uriData != null) {
+                            //Define cursor to extract name from the user's file
+                            Cursor returnCursor =
+                                    getContentResolver().query(uriData,
+                                            null, null, null,
+                                            null);
+                            //Define the index where the file's name is located
+                            int nameIndex = returnCursor.getColumnIndex(
+                                    OpenableColumns.DISPLAY_NAME);
+                            //Move back to the first row
+                            returnCursor.moveToFirst();
+                            //Set our textview to the file name by indexing the cursor
+                            rosterName.setText("Imported: " + returnCursor.getString(nameIndex));
+                            //Log.d("MainActivity", returnCursor.getString(nameIndex));
+                        } else {
+                            //if the uri is null then the file was empty or did not import
+                            rosterName.setText("Import failed");
                         }
-                    });
+                    } else {
+                        //The result code was not valid, or the return intent was empty
+                        Log.d("MainActivity", "ResultCode != RESULT_OK");
+                    }
+                }
+            });
+
+    /*
+    ActivityResultLauncher<Intent> activityResultLauncher2 = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    //validity check for returned file from user
+                    if (o.getResultCode() == RESULT_OK && o.getData() != null) {
+                        //retrieve the string data
+                        Intent data = o.getData();
+                        String text = data.getStringExtra("key1");
+                        classDisplay.setText("Course added: " + text);
+                        finish();
+                    }
+                }
+            });
+    */
+
+    @Override
+    public void onClick(View v) {
+        //if the id of the clicked button is the desired add course button
+        if (v.getId() == R.id.button2) {
+            //extract the text data from the edittext
+            String courseName = className.getText().toString();
+            //check if the edittext is empty
+            if (courseName != "") {
+                //set the textview to the text from the edittext, which displays user's added course
+                classDisplay.setText("Added course: " + courseName);
+            }
+        }
+    }
 }
