@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (o.getResultCode() == RESULT_OK && o.getData() != null) {
                         //retrieve the data(intent) from  result
                         Intent data = o.getData();
-                        //retrieve the uri from the intent data
+                        //retrieve the uri from the intent's data
                         Uri uriData = data.getData();
                         //check if uri is empty
                         if (uriData != null) {
