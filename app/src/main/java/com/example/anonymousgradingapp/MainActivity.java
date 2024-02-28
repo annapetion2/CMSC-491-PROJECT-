@@ -20,6 +20,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
 /*Need to implement View.OnClickListener because the program cannot utilize ActivityResultLauncher
 for the simple task of displaying text from the edittext to the textview, without the use of
 an intent that mandates a source and a destination. Thus we simply override OnClick without
@@ -31,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText className; //declare edittext to type course name into
     private TextView rosterName; //declare textview for roster file name
     private TextView classDisplay; //declare textview for new course name
+    private EditText instructorName;
+    private Button instructorButton;
+    private TextView instructorDisplay;
+    private Button back_button;
+    protected ArrayList<Course> courseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +49,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //initialize buttons, edittext, and textview
         rosterButton = (Button) findViewById(R.id.button);
         classButton = (Button) findViewById(R.id.button2);
+        back_button = (Button) findViewById(R.id.back_to_master);
         className = (EditText) findViewById(R.id.editTextText);
         classDisplay = (TextView) findViewById(R.id.textView2);
         rosterName = (TextView) findViewById(R.id.textView);
 
+        instructorName = (EditText) findViewById(R.id.editTextText2);
+        instructorButton = (Button) findViewById(R.id.button4);
+        instructorDisplay = (TextView) findViewById(R.id.textView5);
+
+        courseList = new ArrayList<Course>(); //instantiate list of courses
+
         classButton.setOnClickListener(this); //have the activity listen to the add course button
+        instructorButton.setOnClickListener(this); //have activity listen to add instructor button
+        back_button.setOnClickListener(this); //have activity listen to back button
 
         rosterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +168,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (courseName != "") {
                 //set the textview to the text from the edittext, which displays user's added course
                 classDisplay.setText("Added course: " + courseName);
+                //create a new course with the name initialized to the user's input
+                Course newCourse = new Course(courseName);
+                //add the new course to the list of all course in the process
+                courseList.add(newCourse);
             }
+        }else if (v.getId() == R.id.button4){ //check if button press was to add new instructor
+            String teacherName = instructorName.getText().toString(); //extract name from edittext
+            if(teacherName != ""){ //check if string is empty
+                //display the instructor's name in the textview
+                instructorDisplay.setText("Added instructor: " + teacherName);
+            }
+        }else if (v.getId() == R.id.back_to_master){ //check if button press was the back button
+            Intent emptyIntent = new Intent();  //make new empty intent
+            setResult(RESULT_OK, emptyIntent); //set intent to RESULT_OK
+            finish();   //finish this screen and return to master
         }
     }
 }
