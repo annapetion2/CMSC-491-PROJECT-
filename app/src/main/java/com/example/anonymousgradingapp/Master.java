@@ -39,6 +39,7 @@ public class Master extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addExamIntent = new Intent(Master.this, MainActivity2.class);
+                examResult.launch(addExamIntent);
             }
         });
         barcode_button.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +62,20 @@ public class Master extends AppCompatActivity {
                         @Override
                         public void onActivityResult(ActivityResult o) {
                             if(o.getResultCode() == RESULT_OK){
-                                int code = 1;
+                                //do something
                             }
                         }
                     });
+    ActivityResultLauncher<Intent> examResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == RESULT_OK){
+                                //do something
+                            }
+                        }
+                    });
+
 
 }
