@@ -12,11 +12,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Master extends AppCompatActivity {
+public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button course_button;
     private Button exam_button;
     private Button barcode_button;
     private Button scan_button;
+    private Button logout_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,9 @@ public class Master extends AppCompatActivity {
         exam_button = (Button)findViewById(R.id.exam_button);
         barcode_button = (Button)findViewById(R.id.barcode_button);
         scan_button = (Button)findViewById(R.id.scan_button);
+        logout_button = (Button)findViewById(R.id.logout);
+
+        logout_button.setOnClickListener(this);
 
         course_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +49,8 @@ public class Master extends AppCompatActivity {
         barcode_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent showBarcodesIntent = new Intent(Master.this, MainActivity3.class);
+                Intent showBarcodesIntent = new Intent(Master.this, BarcodeName.class);
+                barcodeResult.launch(showBarcodesIntent);
             }
         });
         scan_button.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +92,23 @@ public class Master extends AppCompatActivity {
                             }
                         }
                     });
+    ActivityResultLauncher<Intent> barcodeResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == RESULT_OK){
+                                //do something
+                            }
+                        }
+                    });
 
-
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.logout){
+            Intent emptyIntent = new Intent();  //make new empty intent
+            setResult(RESULT_OK, emptyIntent); //set intent to RESULT_OK
+            finish();   //finish this screen and return to master
+        }
+    }
 }
