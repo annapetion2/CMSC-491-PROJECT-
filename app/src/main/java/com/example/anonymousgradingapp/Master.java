@@ -51,7 +51,8 @@ public class Master extends AppCompatActivity {
         scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent scanExamsIntent = new Intent(Master.this, MainActivity4.class);
+                Intent scanExamsIntent = new Intent(Master.this, MainActivity4.class);
+                scanResult.launch(scanExamsIntent);
             }
         });
     }
@@ -67,6 +68,16 @@ public class Master extends AppCompatActivity {
                         }
                     });
     ActivityResultLauncher<Intent> examResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == RESULT_OK){
+                                //do something
+                            }
+                        }
+                    });
+    ActivityResultLauncher<Intent> scanResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
                         @Override
