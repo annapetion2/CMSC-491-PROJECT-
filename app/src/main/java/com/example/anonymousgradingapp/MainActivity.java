@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.customview.widget.Openable;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,6 +20,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.google.gson.Gson;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+
+
+
+
 
 import org.w3c.dom.Text;
 
@@ -40,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView instructorDisplay;
     private Button back_button;
     protected ArrayList<Course> courseList;
+    // UI components for adding courses
+    private Button addButton;
+    private ArrayList<String> courseNames = new ArrayList<>(); // Holds course names for simplicity
+    private ListView coursesListView; // Displays the list of courses
+    private ArrayAdapter<String> adapter; // Adapter for the ListView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +187,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Course newCourse = new Course(courseName);
                 //add the new course to the list of all course in the process
                 courseList.add(newCourse);
+                // save the data to sharedpreference
+                SharedPreferences prefs = getSharedPreferences("Courses", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                // converting object to json
+                Gson gson = new Gson();
+                // converting the courses in the arrayList to a json
+                String json = gson.toJson(courseList);
+                //put the Json string into the sharedPreferences
+                editor.putString("courseList", json);
+                //commiting the changes to shared preferences
+                editor.apply();
+
+
             }
         }else if (v.getId() == R.id.button4){ //check if button press was to add new instructor
             String teacherName = instructorName.getText().toString(); //extract name from edittext
@@ -185,4 +213,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();   //finish this screen and return to master
         }
     }
+
+    private void saveCourses() {
+        // Save the current list of course names to SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("Courses", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(courseNames); // Convert the list to JSON
+        editor.putString("courseList", json); // Save under "courseList" key
+        editor.apply();
+    }
+
+    private void loadCourses() {
+        // Load the list of course names from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("Courses", MODE_PRIVATE);
+        String json = prefs.getString("courseList", null);
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        ArrayList<String> loadedCourses = gson.fromJson(json, type);
+        if (loadedCourses != null) {
+            courseNames.clear();
+            courseNames.addAll(loadedCourses);
+            adapter.notifyDataSetChanged(); // Refresh the ListView with the loaded courses
+        }
+    }
 }
+
+
