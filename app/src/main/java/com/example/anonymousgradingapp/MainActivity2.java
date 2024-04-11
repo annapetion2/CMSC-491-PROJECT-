@@ -56,7 +56,6 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onActivityResult(ActivityResult o) {
                     if(o.getResultCode() == RESULT_OK){
-                        /*
                         //get the index of the course the user selected to add an exam to
                         int index = o.getData().getIntExtra("Key",0);
                         //create a new exam with the inputted name
@@ -66,7 +65,6 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                         GlobalVariable.courseList.get(index).exams.add(newExam);
                         displayExam.setText("Added exam: " + examName.getText().toString() + " to " +
                                 GlobalVariable.courseList.get(index).getName());
-                         */
 
                     }
                 }
