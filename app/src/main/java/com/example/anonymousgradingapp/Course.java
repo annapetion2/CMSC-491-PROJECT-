@@ -26,7 +26,7 @@ public class Course {
     public String getInstructor(){return instructor;};
 
     //According to android API, ArrayAdapter by default displays the value returned by the custom
-    //object's toString() method, therefore to dispaly the names of the courses on the listView
+    //object's toString() method, therefore to display the names of the courses on the listView
     //using an ArrayAdapter, this class must override the toString() method to return the string
     //of the object's name.
     @Override

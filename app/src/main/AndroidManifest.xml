@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AnonymousGradingApp"
         tools:targetApi="31">
         <activity
+            android:name=".CourseListDisplay"
+            android:exported="false" />
+        <activity
             android:name=".CourseListAddExam"
             android:exported="false" />
         <activity

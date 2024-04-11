@@ -20,6 +20,7 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button barcode_button;
     private Button scan_button;
     private Button logout_button;
+    private Button classList;
     public ArrayList<Course> courseList = new ArrayList<Course>(); //instantiate list of courses
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
         barcode_button = (Button)findViewById(R.id.barcode_button);
         scan_button = (Button)findViewById(R.id.scan_button);
         logout_button = (Button)findViewById(R.id.logout);
+        classList = (Button) findViewById(R.id.class_list);
 
         //create a bundle and populated with the courseList in order to pass to other activities
         Bundle bundle = new Bundle();
@@ -68,6 +70,13 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
                 scanResult.launch(scanExamsIntent);
             }
         });
+        classList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent classListIntent = new Intent(Master.this, CourseListDisplay.class);
+                scanResult.launch(classListIntent);
+            }
+        });
     }
 
     ActivityResultLauncher<Intent> courseResult =
@@ -101,6 +110,17 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
                         }
                     });
     ActivityResultLauncher<Intent> barcodeResult =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == RESULT_OK){
+                                //do something
+                            }
+                        }
+                    });
+
+    ActivityResultLauncher<Intent> classResult =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
                         @Override
