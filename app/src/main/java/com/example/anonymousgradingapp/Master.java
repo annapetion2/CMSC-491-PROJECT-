@@ -1,16 +1,18 @@
 package com.example.anonymousgradingapp;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button course_button;
@@ -18,6 +20,7 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button barcode_button;
     private Button scan_button;
     private Button logout_button;
+    public ArrayList<Course> courseList = new ArrayList<Course>(); //instantiate list of courses
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +32,17 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
         scan_button = (Button)findViewById(R.id.scan_button);
         logout_button = (Button)findViewById(R.id.logout);
 
+        //create a bundle and populated with the courseList in order to pass to other activities
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("LIST",(Serializable)courseList);
+
         logout_button.setOnClickListener(this);
 
         course_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent addCourseIntent = new Intent(Master.this, MainActivity.class);
+                addCourseIntent.putExtras(bundle);
                 courseResult.launch(addCourseIntent);
             }
         });

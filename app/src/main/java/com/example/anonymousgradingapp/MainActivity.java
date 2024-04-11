@@ -1,36 +1,23 @@
 package com.example.anonymousgradingapp;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.OpenableColumns;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.customview.widget.Openable;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import com.google.gson.Gson;
-import android.widget.ListView;
-import android.widget.ArrayAdapter;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
-
-
-
-
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -49,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button instructorButton;
     private TextView instructorDisplay;
     private Button back_button;
-    protected ArrayList<Course> courseList;
     // UI components for adding courses
     private Button addButton;
     private ArrayList<String> courseNames = new ArrayList<>(); // Holds course names for simplicity
@@ -72,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         instructorName = (EditText) findViewById(R.id.editTextText2);
         instructorButton = (Button) findViewById(R.id.button4);
         instructorDisplay = (TextView) findViewById(R.id.textView5);
-
-        courseList = new ArrayList<Course>(); //instantiate list of courses
 
         classButton.setOnClickListener(this); //have the activity listen to the add course button
         instructorButton.setOnClickListener(this); //have activity listen to add instructor button
@@ -186,7 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //create a new course with the name initialized to the user's input
                 Course newCourse = new Course(courseName);
                 //add the new course to the list of all course in the process
-                courseList.add(newCourse);
+                GlobalVariable.courseList.add(newCourse);
+
+                /*
                 // save the data to sharedpreference
                 SharedPreferences prefs = getSharedPreferences("Courses", MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
@@ -198,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.putString("courseList", json);
                 //commiting the changes to shared preferences
                 editor.apply();
-
+                */
 
             }
         }else if (v.getId() == R.id.button4){ //check if button press was to add new instructor
@@ -214,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
     private void saveCourses() {
         // Save the current list of course names to SharedPreferences
         SharedPreferences prefs = getSharedPreferences("Courses", MODE_PRIVATE);
@@ -237,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             adapter.notifyDataSetChanged(); // Refresh the ListView with the loaded courses
         }
     }
+    */
 }
 
 
