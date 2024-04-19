@@ -21,6 +21,7 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button scan_button;
     private Button logout_button;
     private Button classList;
+    private Button grade_scanner;
     public ArrayList<Course> courseList = new ArrayList<Course>(); //instantiate list of courses
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
         scan_button = (Button)findViewById(R.id.scan_button);
         logout_button = (Button)findViewById(R.id.logout);
         classList = (Button) findViewById(R.id.class_list);
+        grade_scanner = (Button) findViewById(R.id.grade_scanner);
 
         //create a bundle and populated with the courseList in order to pass to other activities
         Bundle bundle = new Bundle();
@@ -67,6 +69,13 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 Intent scanExamsIntent = new Intent(Master.this, MainActivity4.class);
+                scanResult.launch(scanExamsIntent);
+            }
+        });
+        grade_scanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scanExamsIntent = new Intent(Master.this, textScanner.class);
                 scanResult.launch(scanExamsIntent);
             }
         });
