@@ -12,7 +12,7 @@ public class Course {
     protected ArrayList<Student> roster; //full roster of students
     protected ArrayList<Exam> exams = new ArrayList<Exam>(); //list of all exams
     protected ArrayList<ArrayList<Bitmap>> barcodes; //for each exam, barcodes for each student
-    protected ArrayList<Student> studentList; //for each exam, grades/bar
+    protected ArrayList<Student> studentList = new ArrayList<Student>(); //for each exam, grades/bar
 
     public Course(){}
     public Course(String name){

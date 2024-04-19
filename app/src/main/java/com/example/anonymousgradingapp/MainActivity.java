@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
@@ -18,14 +19,15 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.content.CursorLoader;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /*Need to implement View.OnClickListener because the program cannot utilize ActivityResultLauncher
@@ -91,8 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rosterIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 //Launch the activityresultlauncher with our intent
                 Intent myIntent = new Intent(MainActivity.this,CourseListAddExam.class);
-                rosterResult.launch(myIntent);
+                //rosterResult.launch(myIntent);
                 activityResultLauncher.launch(Intent.createChooser(rosterIntent, "Open CSV"));
+                rosterResult.launch(myIntent);
 
             }
         });
@@ -138,19 +141,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             //Set our textview to the file name by indexing the cursor
                             rosterName.setText("Imported: " + returnCursor.getString(nameIndex));
                             //Log.d("MainActivity", returnCursor.getString(nameIndex));
-                            File file = new File(uriData.getPath());
+                            //File file = new File(uriData.getPath());
                             try {
-                                CSVReader reader = new CSVReader(new FileReader(file));
-                                //CSVReader reader = new CSVReader(new FileReader(uriData.getPath());
+                                //CSVReader reader = new CSVReader(new FileReader(file));
+                                //Log.d("MainActivity", uriData.toString());
+                                //Log.d("MainActivity", uriData.getPath());
+                                //String path = getRealPathFromURI(uriData);
+                                InputStream input = MainActivity.this.getContentResolver().openInputStream(uriData);
+                                CSVReader reader = new CSVReader(new InputStreamReader(input));
                                 String[] line;
-                                int count = 0;
                                 while((line = reader.readNext()) != null){
                                     Student newStudent = new Student();
                                     newStudent.fname = line[0];
                                     newStudent.lname = line[1];
                                     newStudent.ID = line[2];
+                                    Log.d("MainAcitivty", line[0]);
+                                    Log.d("MainAcitivty", line[1]);
+                                    Log.d("MainAcitivty", line[2]);
                                     GlobalVariable.courseList.get(course_pos).studentList.add(newStudent);
-                                    //Log.d("Test", line[0]);
                                 }
                             } catch (CsvValidationException e) {
                                 throw new RuntimeException(e);
@@ -290,6 +298,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     */
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        CursorLoader loader = new CursorLoader(this, contentUri, proj, null, null, null);
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
 }
 
 
