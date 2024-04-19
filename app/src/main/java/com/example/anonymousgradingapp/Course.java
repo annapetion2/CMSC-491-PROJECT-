@@ -2,8 +2,6 @@ package com.example.anonymousgradingapp;
 
 import android.graphics.Bitmap;
 
-import com.opencsv.CSVReader;
-
 import java.util.ArrayList;
 
 //This class serves as a general object for every class that the user decides to name and create in
@@ -11,7 +9,7 @@ import java.util.ArrayList;
 public class Course {
     protected String name; //course name
     protected String instructor; //instructor name
-    protected CSVReader roster; //full roster of students
+    protected ArrayList<Student> roster; //full roster of students
     protected ArrayList<Exam> exams = new ArrayList<Exam>(); //list of all exams
     protected ArrayList<ArrayList<Bitmap>> barcodes; //for each exam, barcodes for each student
     protected ArrayList<Student> studentList; //for each exam, grades/bar

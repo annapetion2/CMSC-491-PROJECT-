@@ -19,6 +19,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /*Need to implement View.OnClickListener because the program cannot utilize ActivityResultLauncher
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> courseNames = new ArrayList<>(); // Holds course names for simplicity
     private ListView coursesListView; // Displays the list of courses
     private ArrayAdapter<String> adapter; // Adapter for the ListView
+    private int course_pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +90,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //the listed types of files, via putExtra()
                 rosterIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                 //Launch the activityresultlauncher with our intent
+                Intent myIntent = new Intent(MainActivity.this,CourseListAddExam.class);
+                rosterResult.launch(myIntent);
                 activityResultLauncher.launch(Intent.createChooser(rosterIntent, "Open CSV"));
-                //activityResultLauncher.launch(rosterIntent);
+
             }
         });
 
@@ -128,6 +138,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             //Set our textview to the file name by indexing the cursor
                             rosterName.setText("Imported: " + returnCursor.getString(nameIndex));
                             //Log.d("MainActivity", returnCursor.getString(nameIndex));
+                            File file = new File(uriData.getPath());
+                            try {
+                                CSVReader reader = new CSVReader(new FileReader(file));
+                                //CSVReader reader = new CSVReader(new FileReader(uriData.getPath());
+                                String[] line;
+                                int count = 0;
+                                while((line = reader.readNext()) != null){
+                                    Student newStudent = new Student();
+                                    newStudent.fname = line[0];
+                                    newStudent.lname = line[1];
+                                    newStudent.ID = line[2];
+                                    GlobalVariable.courseList.get(course_pos).studentList.add(newStudent);
+                                    //Log.d("Test", line[0]);
+                                }
+                            } catch (CsvValidationException e) {
+                                throw new RuntimeException(e);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         } else {
                             //if the uri is null then the file was empty or did not import
                             rosterName.setText("Import failed");
@@ -138,7 +169,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             });
-
+    ActivityResultLauncher<Intent> rosterResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == RESULT_OK){
+                        //get the index of the course the user selected to add an exam to
+                        int index = o.getData().getIntExtra("Key",0);
+                        //access the course the user selected, then append the new roster data to
+                        //the course's roster member
+                        //Student newStudent =
+                        //GlobalVariable.courseList.get(index).roster.add();
+                        rosterName.setText("Importing to " +
+                                GlobalVariable.courseList.get(index).getName());
+                        course_pos = index;
+                    }
+                }
+            });
     /*
     ActivityResultLauncher<Intent> activityResultLauncher2 = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -190,8 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if (v.getId() == R.id.button4){ //check if button press was to add new instructor
             String teacherName = instructorName.getText().toString(); //extract name from edittext
             if(teacherName != ""){ //check if string is empty
-                //display the instructor's name in the textview
-                instructorDisplay.setText("Added instructor: " + teacherName);
+                Intent myIntent = new Intent(MainActivity.this,CourseListAddExam.class);
+                //launch listview, and returned clicked course to set the inputted instructor name
+                listResult.launch((myIntent));
             }
         }else if (v.getId() == R.id.back_to_master){ //check if button press was the back button
             Intent emptyIntent = new Intent();  //make new empty intent
@@ -199,7 +248,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();   //finish this screen and return to master
         }
     }
+    ActivityResultLauncher<Intent> listResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == RESULT_OK){
+                        //get the index of the course the user selected to add an exam to
+                        int index = o.getData().getIntExtra("Key",0);
+                        //access the course the user selected, then append the instructor name to
+                        //the course's instructor member
+                        GlobalVariable.courseList.get(index).instructor = instructorName.getText().toString();
+                        instructorDisplay.setText("Added instructor: " + instructorName.getText().toString()
+                                + " to " + GlobalVariable.courseList.get(index).getName());
 
+                    }
+                }
+            });
     /*
     private void saveCourses() {
         // Save the current list of course names to SharedPreferences
