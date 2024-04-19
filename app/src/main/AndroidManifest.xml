@@ -16,6 +16,9 @@
         android:theme="@style/Theme.AnonymousGradingApp"
         tools:targetApi="31">
         <activity
+            android:name=".ExamListDisplay"
+            android:exported="false" />
+        <activity
             android:name=".StudentListAddBarcode"
             android:exported="false" />
         <activity

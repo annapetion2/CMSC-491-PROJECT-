@@ -26,6 +26,7 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
     private Button show_barcodes;
     private ImageView iv_qr;
     private int course_pos;
+    private int exam_pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                 listResult.launch(myIntent);
             }
         });
-        // generate when the user click on it
+        // generate barcode on user click
         bt_generate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +66,17 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                                 int index = o.getData().getIntExtra("Key", 0);
                                 course_pos = index;
                                 GlobalVariable.pos = index;
+
+                                Intent examIntent = new Intent(BarcodeName.this,
+                                        ExamListDisplay.class);
+                                examResult.launch(examIntent);
+                                
                                 for (int i = 0;
                                      i < GlobalVariable.courseList.get(course_pos).studentList.size();
                                      i++) {
-                                    String name = GlobalVariable.courseList.get(course_pos)
-                                            .studentList.get(i).fname;
-                                    Bitmap bitmap = generateQR(name);
+                                    String ID = GlobalVariable.courseList.get(course_pos)
+                                            .studentList.get(i).ID;
+                                    Bitmap bitmap = generateQR(ID);
                                     GlobalVariable.courseList.get(course_pos).studentList
                                             .get(i).barcode_id = bitmap;
                                 }
@@ -84,6 +90,17 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                 public void onActivityResult(ActivityResult o) {
                     if(o.getResultCode() == RESULT_OK){
                         //do something
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> examResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == RESULT_OK){
+                        int index = o.getData().getIntExtra("Key", 0);
+                        exam_pos = index;
                     }
                 }
             });

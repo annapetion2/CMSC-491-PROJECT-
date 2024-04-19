@@ -1,18 +1,17 @@
 package com.example.anonymousgradingapp;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 public class MainActivity4 extends AppCompatActivity implements View.OnClickListener{
     private Button scan_button;
@@ -29,14 +28,15 @@ public class MainActivity4 extends AppCompatActivity implements View.OnClickList
 
         back_button.setOnClickListener(this);
 
-        scan_button.setOnClickListener(new View.OnClickListener() {
+        /*scan_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 activityResultLauncher.launch(cameraIntent);
             }
-        });
+        });*/
     }
+
     ActivityResultLauncher<Intent> activityResultLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                     new ActivityResultCallback<ActivityResult>() {
