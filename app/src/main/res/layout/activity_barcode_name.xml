@@ -23,39 +23,32 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/StudentName"
-            android:layout_width="124dp"
-            android:layout_height="wrap_content"
-            android:hint="Studentname"
-            android:background="@android:color/transparent"
-        />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content"/>
 
     <!-- creating the Barcode ID title -->
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="244dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Barcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:hint="barcode" />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/back_to_master4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Return" />
+
+    <Button
+        android:id="@+id/bt_Generate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate" />
+
+    <Button
+        android:id="@+id/showBList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show barcodes" />
+
+    <ImageView
+        android:id="@+id/iv_qr"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
 </LinearLayout>

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.anonymousgradingapp"
-        minSdk = 30
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -40,4 +40,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
+    implementation ("com.google.mlkit:barcode-scanning:16.1.1")
+    implementation ("com.google.android.gms:play-services-mlkit-text-recognition:19.0.0")
 }
