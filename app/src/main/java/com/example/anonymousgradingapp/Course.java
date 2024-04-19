@@ -13,7 +13,8 @@ public class Course {
     protected ArrayList<Exam> exams = new ArrayList<Exam>(); //list of all exams
     protected ArrayList<ArrayList<Bitmap>> barcodes; //for each exam, barcodes for each student
     protected ArrayList<Student> studentList = new ArrayList<Student>(); //for each exam, grades/bar
-
+    protected String[] students = new String[1000];
+    protected Bitmap[] barcodes2 = new Bitmap[1000];
     public Course(){}
     public Course(String name){
         this.name = name;
@@ -30,6 +31,22 @@ public class Course {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String[] getStudents(){
+        for(int i = 0; i < this.studentList.size(); i++){
+            String info =   this.studentList.get(i).fname + " " +
+                            this.studentList.get(i).lname + " " +
+                            this.studentList.get(i).ID;
+            students[i] = info;
+        }
+        return students;
+    }
+    public Bitmap[] getBarcodes(){
+        for(int i = 0; i < this.studentList.size(); i++) {
+            barcodes2[i] = this.studentList.get(i).barcode_id;
+        }
+        return barcodes2;
     }
 
 }

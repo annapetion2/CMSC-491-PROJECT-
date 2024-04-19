@@ -14,7 +14,7 @@
         android:textSize="13pt" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/barcodeImage"
         android:layout_width="match_parent"
         android:layout_height="476dp"
         android:layout_weight="1"
