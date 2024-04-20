@@ -84,5 +84,16 @@ public class textScanner extends AppCompatActivity {
         recognizer.process(image)
                 .addOnSuccessListener(text -> showText.setText(text.getText()))
                 .addOnFailureListener(e -> Toast.makeText(this, "Error recognizing text: " + e.getMessage(), Toast.LENGTH_LONG).show());
+
+        int myNum = -1;
+        try {
+            myNum = Integer.parseInt(showText.getText().toString());
+        } catch(NumberFormatException nfe) {
+            System.out.println("Could not parse " + nfe);
+        }
+
+        if(myNum > -1){
+            GlobalVariable.scanned_grade.add(myNum); //add scanned text grade
+        }
     }
 }

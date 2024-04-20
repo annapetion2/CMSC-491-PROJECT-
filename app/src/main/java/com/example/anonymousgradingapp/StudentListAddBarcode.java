@@ -16,11 +16,13 @@ public class StudentListAddBarcode extends AppCompatActivity {
         listview_ = (ListView)findViewById(R.id.listviewview2);
         //listAdapter = new ArrayAdapter<Student>(this, R.layout.textviewforlistview,
                // R.id.holder, GlobalVariable.courseList.get(GlobalVariable.pos).studentList);
-        StudentAdapter listAdapter = new StudentAdapter(getApplicationContext(),
-                GlobalVariable.courseList.get(GlobalVariable.pos).getStudents(),
-                GlobalVariable.courseList.get(GlobalVariable.pos).getBarcodes());
+        int index = getIntent().getIntExtra("key",-1);
+        if(index > -1) {
+            StudentAdapter listAdapter = new StudentAdapter(getApplicationContext(),
+                    GlobalVariable.courseList.get(GlobalVariable.pos).getStudents(),
+                    GlobalVariable.courseList.get(GlobalVariable.pos).exams.get(index).getBarcodes());
 
-
-        listview_.setAdapter(listAdapter);
+            listview_.setAdapter(listAdapter);
+        }
     }
 }

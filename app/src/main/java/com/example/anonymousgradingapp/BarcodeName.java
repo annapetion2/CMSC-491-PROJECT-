@@ -3,6 +3,7 @@ package com.example.anonymousgradingapp;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.util.ArrayList;
 
 public class BarcodeName extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,8 +47,8 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
         show_barcodes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(BarcodeName.this, StudentListAddBarcode.class);
-                listResult.launch(myIntent);
+                Intent myIntent = new Intent( BarcodeName.this,CourseListAddExam.class);
+                classResult.launch(myIntent); // select a class to display barcodes
             }
         });
         // generate barcode on user click
@@ -70,16 +73,6 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                                 Intent examIntent = new Intent(BarcodeName.this,
                                         ExamListDisplay.class);
                                 examResult.launch(examIntent);
-                                
-                                for (int i = 0;
-                                     i < GlobalVariable.courseList.get(course_pos).studentList.size();
-                                     i++) {
-                                    String ID = GlobalVariable.courseList.get(course_pos)
-                                            .studentList.get(i).ID;
-                                    Bitmap bitmap = generateQR(ID);
-                                    GlobalVariable.courseList.get(course_pos).studentList
-                                            .get(i).barcode_id = bitmap;
-                                }
                             }
                         }
                     });
@@ -93,14 +86,71 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                     }
                 }
             });
-    ActivityResultLauncher<Intent> examResult = registerForActivityResult(
+    ActivityResultLauncher<Intent> classResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult o) {
                     if(o.getResultCode() == RESULT_OK){
                         int index = o.getData().getIntExtra("Key", 0);
+                        course_pos = index;
+                        GlobalVariable.pos = index;
+                        Intent examIntent = new Intent(BarcodeName.this,
+                                ExamListDisplay.class);
+                        examResult2.launch(examIntent); //select exam to display barcodes
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> examResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == RESULT_OK) {
+                        int index = o.getData().getIntExtra("Key2", 0);
                         exam_pos = index;
+                        GlobalVariable.epos = index;
+
+                        ArrayList<Bitmap> barcodes = new ArrayList<Bitmap>();
+                        for (int i = 0;
+                             i < GlobalVariable.courseList.get(course_pos).studentList.size();
+                             i++) {
+                            String ID = GlobalVariable.courseList.get(course_pos)
+                                    .studentList.get(i).ID;
+                            Bitmap bitmap = generateQR(ID + " " + course_pos + " " + exam_pos);
+
+                            barcodes.add(bitmap);
+                            if(GlobalVariable.courseList.get(course_pos).barcodes.size() > exam_pos){
+                                GlobalVariable.courseList.get(course_pos).barcodes.add(exam_pos,barcodes);
+                            }else{
+                                int count = 0;
+                                while(count < exam_pos){
+                                        if (GlobalVariable.courseList.get(course_pos).
+                                                barcodes.size() <= count){
+                                            GlobalVariable.courseList.get(course_pos).barcodes.add(barcodes);
+                                        }
+                                    count++;
+                                }
+                                GlobalVariable.courseList.get(course_pos).barcodes.add(barcodes);
+                            }
+                            //GlobalVariable.courseList.get(course_pos).studentList
+                                    //.get(i).barcode_id = bitmap;
+                        }
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> examResult2 = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if(o.getResultCode() == RESULT_OK){
+                        int index = o.getData().getIntExtra("Key2", 0);
+                        exam_pos = index;
+                        GlobalVariable.epos = index;
+                        Intent myIntent = new Intent(BarcodeName.this, StudentListAddBarcode.class);
+                        myIntent.putExtra("key",exam_pos);
+                        listResult.launch(myIntent); //display barcodes
                     }
                 }
             });
@@ -112,7 +162,7 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                 BarcodeEncoder encoder = new BarcodeEncoder();
                 // Store bitmap value and return from the encoding
                 Bitmap bitmap = encoder.createBitmap(matrix);
-                iv_qr.setImageBitmap(bitmap);
+                //iv_qr.setImageBitmap(bitmap);
                 return bitmap;
             } catch (WriterException e) {
                 e.printStackTrace();

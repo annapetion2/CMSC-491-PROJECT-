@@ -59,6 +59,19 @@ public class MainActivity4 extends AppCompatActivity implements View.OnClickList
             AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity4.this);
             builder.setTitle("Result");
             builder.setMessage(result.getContents());
+
+            String[] splitted = result.getContents().split("\\s+"); //split the barcode value into 2
+
+            int course_position = 0;
+            course_position = Integer.parseInt(splitted[1]); //convert 2nd part of barcode string to course pos
+
+            int exam_position = 0;
+            exam_position = Integer.parseInt(splitted[2]); //convert 3nd part of barcode string to exam pos
+
+            GlobalVariable.scanned_course.add(course_position); //add course #
+            GlobalVariable.scanned_exam.add(exam_position); //add exam #
+            GlobalVariable.scanned_ID.add(splitted[0]); //add ID
+
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

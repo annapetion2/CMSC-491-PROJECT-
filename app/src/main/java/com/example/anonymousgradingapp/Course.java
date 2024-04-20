@@ -9,12 +9,12 @@ import java.util.ArrayList;
 public class Course {
     protected String name; //course name
     protected String instructor; //instructor name
-    protected ArrayList<Student> roster; //full roster of students
-    protected ArrayList<Exam> exams = new ArrayList<Exam>(); //list of all exams
-    protected ArrayList<ArrayList<Bitmap>> barcodes; //for each exam, barcodes for each student
     protected ArrayList<Student> studentList = new ArrayList<Student>(); //for each exam, grades/bar
     protected String[] students = new String[1000];
     protected Bitmap[] barcodes2 = new Bitmap[1000];
+    protected ArrayList<Exam> exams = new ArrayList<Exam>(); //list of all exams
+    //for each exam, barcodes for each student, index 0 = exam 1, index 1 = exam 2, index 2 = exam 3, etc
+    protected ArrayList<ArrayList<Bitmap>> barcodes = new ArrayList<ArrayList<Bitmap>>();
     public Course(){}
     public Course(String name){
         this.name = name;
@@ -36,15 +36,18 @@ public class Course {
     public String[] getStudents(){
         for(int i = 0; i < this.studentList.size(); i++){
             String info =   this.studentList.get(i).fname + " " +
-                            this.studentList.get(i).lname + " " +
-                            this.studentList.get(i).ID;
+                    this.studentList.get(i).lname + " " +
+                    this.studentList.get(i).ID;
             students[i] = info;
         }
+        GlobalVariable.ssize = studentList.size();
         return students;
     }
+
     public Bitmap[] getBarcodes(){
-        for(int i = 0; i < this.studentList.size(); i++) {
-            barcodes2[i] = this.studentList.get(i).barcode_id;
+        for(int i = 0; i < GlobalVariable.courseList.get(GlobalVariable.pos).studentList.size(); i++) {
+            barcodes2[i] = GlobalVariable.courseList.get(GlobalVariable.pos).barcodes.
+                    get(GlobalVariable.epos).get(i);
         }
         return barcodes2;
     }

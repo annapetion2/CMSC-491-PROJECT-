@@ -24,9 +24,9 @@ public class ExamListDisplay extends AppCompatActivity {
         listview_.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent courseIntent = new Intent();
-                courseIntent.putExtra("Key", position); //return position of selected course
-                setResult(RESULT_OK, courseIntent);
+                Intent examIntent = new Intent();
+                examIntent.putExtra("Key2", position); //return position of selected exam
+                setResult(RESULT_OK, examIntent);
                 finish();
             }
         });
