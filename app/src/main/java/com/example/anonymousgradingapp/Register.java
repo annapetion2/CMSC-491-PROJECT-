@@ -16,8 +16,8 @@ import com.google.android.material.textfield.TextInputEditText;
 public class Register extends AppCompatActivity implements View.OnClickListener{
 
     private Button register, confirmbutton, back;
-    private TextInputEditText name;
-    private TextInputEditText confirmuser;
+    private TextInputEditText email;
+    private TextInputEditText username;
     private TextInputEditText password;
     private TextInputEditText confirmcode;
 
@@ -26,8 +26,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        name = (TextInputEditText)findViewById(R.id.Name);
-        confirmuser = (TextInputEditText)findViewById(R.id.UserName);
+        email = (TextInputEditText)findViewById(R.id.Email);
+        username = (TextInputEditText)findViewById(R.id.UserName);
         password = (TextInputEditText)findViewById(R.id.Password);
         confirmcode = (TextInputEditText)findViewById(R.id.confirmcode);
 
@@ -43,21 +43,23 @@ public class Register extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.Submit) {
-            if(name.getText().toString() == confirmuser.getText().toString()) {
-                Amplify.Auth.signUp(
-                        name.getText().toString(),
-                        password.getText().toString(),
-                        AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "my@email.com").build(),
-                        result -> Log.i("Amplify Auth", "Result: " + result.toString()),
-                        error -> Log.e("Amplify Auth", "Sign up failed", error)
-                );
-            }
+            AuthSignUpOptions options = AuthSignUpOptions.builder()
+                    .userAttribute(AuthUserAttributeKey.email(), email.getText().toString())
+                    .build();
+            Amplify.Auth.signUp(
+                    email.getText().toString(),
+                    password.getText().toString(),
+                    options,
+                    result -> Log.i("Amplify Auth", "Result: " + result.toString()),
+                    error -> Log.e("Amplify Auth", "Sign up failed", error)
+            );
             confirmbutton.setVisibility(View.VISIBLE);
         }else if(v.getId() == R.id.rconfirm){
-            Amplify.Auth.confirmSignUp(name.getText().toString(),
-                    confirmuser.getText().toString(),
+            Amplify.Auth.confirmSignUp(email.getText().toString(),
+                    confirmcode.getText().toString(),
                     result -> Log.d("AmplifyRegister", "Result: " + result.toString()),
                     error -> Log.e("AmplifyRegister", "Error: " + error.toString())); //lambda notation
+
         }else if(v.getId() == R.id.back_to_login2){
             Intent emptyIntent = new Intent();  //make new empty intent
             setResult(RESULT_OK, emptyIntent); //set intent to RESULT_OK

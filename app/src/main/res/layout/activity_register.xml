@@ -29,10 +29,10 @@
         android:layout_marginBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Name"
+            android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter_Username" />
+            android:hint="Enter_Email" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- creating "UserName" text view -->
@@ -48,7 +48,7 @@
             android:id="@+id/UserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm_Username" />
+            android:hint="Enter username" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- creating "Password" text view -->
@@ -78,14 +78,14 @@
             android:id="@+id/confirmcode"
             android:layout_width="353dp"
             android:layout_height="62dp"
-            android:hint="Enter confirmation code" />
+            android:hint="Confirm code" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Submit_button" />
+        android:hint="Register" />
 
     <Button
         android:id="@+id/rconfirm"
