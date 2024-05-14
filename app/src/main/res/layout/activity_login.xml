@@ -29,7 +29,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:id= "@+id/UserName"
-            android:hint="Enter_your_Username"
+            android:hint="Enter_Username"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,7 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:id= "@+id/Password"
-            android:hint= "Enter_your_password"
+            android:hint= "Enter_password"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 

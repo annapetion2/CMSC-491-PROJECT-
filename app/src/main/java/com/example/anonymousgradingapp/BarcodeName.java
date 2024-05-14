@@ -119,6 +119,9 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                                     .studentList.get(i).ID;
                             Bitmap bitmap = generateQR(ID + " " + course_pos + " " + exam_pos);
 
+                            //need to fix edge case, where if you generate barcodes for an exam
+                            //that is sequentially further than other exams, if you go back and
+                            //generate the lower indices, it will overwrite the higher indices.
                             barcodes.add(bitmap);
                             if(GlobalVariable.courseList.get(course_pos).barcodes.size() > exam_pos){
                                 GlobalVariable.courseList.get(course_pos).barcodes.add(exam_pos,barcodes);

@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-anonymousgradingapp-dev-3a97d-authRole",
+      "UnauthRoleArn": "arn:aws:iam::211125611297:role/amplify-anonymousgradingapp-dev-3a97d-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::211125611297:role/amplify-anonymousgradingapp-dev-3a97d-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-anonymousgradingapp-dev-3a97d-deployment",
+      "UnauthRoleName": "amplify-anonymousgradingapp-dev-3a97d-unauthRole",
+      "StackName": "amplify-anonymousgradingapp-dev-3a97d",
+      "StackId": "arn:aws:cloudformation:us-east-1:211125611297:stack/amplify-anonymousgradingapp-dev-3a97d/42bddd70-11a5-11ef-92a0-1229ba725b09",
+      "AmplifyAppId": "dpbz6oq4s7b4k"
+    },
+    "categories": {
+      "api": {
+        "anonymousgradingapp": {}
+      },
+      "auth": {
+        "AnonymousGradingApp": {}
+      }
+    }
+  }
+}

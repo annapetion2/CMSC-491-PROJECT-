@@ -2,6 +2,7 @@ package com.example.anonymousgradingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,9 +12,25 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.datastore.generated.model.Todo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+/*
+GraphQL endpoint: https://h5pqnp4jebc5ff3yvcriuh6rji.appsync-api.us-east-1.amazonaws.com/graphql
+GraphQL API KEY: da2-olwb7pwxwvdmfgepkuxto6iei4
 
+Notes:
+    After editing the Schema of the GraphQL API on the AWS Console website, remember to
+    "amplify codegen models" in the command prompt of this project directory in order to update
+    the schema locally.
+ */
 public class Master extends AppCompatActivity implements View.OnClickListener{
     private Button course_button;
     private Button exam_button;
@@ -39,6 +56,20 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
         //create a bundle and populated with the courseList in order to pass to other activities
         Bundle bundle = new Bundle();
         bundle.putSerializable("LIST",(Serializable)courseList);
+
+        Todo todo = Todo.builder()
+                .studentid("Test123")
+                .fname("My first todo")
+                .lname("Whatever the to do is")
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(todo),
+                response -> Log.i("GraphQL","response: " +response),
+                error -> Log.e("GraphQL", "error: "+error));
+        Amplify.API.query(
+                ModelQuery.get(Todo.class,""),
+                response -> Log.i("GraphQL","response: " +response),
+                error -> Log.e("GraphQL", "error: "+error));
 
         logout_button.setOnClickListener(this);
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -9,6 +10,7 @@
     tools:context=".Register">
 
     <!-- creating login text view -->
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,57 +23,81 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Name"
             android:layout_width="match_parent"
-            android:id= "@+id/Name"
-            android:hint="Enter_your_name"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Enter_Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- creating "UserName" text view -->
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/UserName"
             android:layout_width="match_parent"
-            android:id= "@+id/UserName"
-            android:hint="Enter_your_Username"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Confirm_Username" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- creating "Password" text view -->
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
+        android:layout_width="367dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content">
+        android:layout_marginBottom="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Password"
             android:layout_width="match_parent"
-            android:id= "@+id/Password"
-            android:hint= "Enter_your_password"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Enter_password" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- creating the submit button -->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="365dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmcode"
+            android:layout_width="353dp"
+            android:layout_height="62dp"
+            android:hint="Enter confirmation code" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
+        android:id="@+id/Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id= "@+id/Submit"
-        android:hint="Submit_button"
-        />
+        android:hint="Submit_button" />
+
+    <Button
+        android:id="@+id/rconfirm"
+        android:layout_width="151dp"
+        android:layout_height="wrap_content"
+        android:text="Confirm" />
+
+    <Button
+        android:id="@+id/back_to_login2"
+        android:layout_width="153dp"
+        android:layout_height="wrap_content"
+        android:text="Back to login" />
 
 
 </LinearLayout>

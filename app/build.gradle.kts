@@ -28,6 +28,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        isCoreLibraryDesugaringEnabled = true
     }
 }
 
@@ -48,4 +50,13 @@ dependencies {
     implementation ("com.google.android.gms:play-services-mlkit-text-recognition:19.0.0")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.google.firebase:firebase-bom:30.1.0")
+
+    implementation("com.amplifyframework:core:1.6.2")
+    implementation("com.amplifyframework:aws-auth-cognito:2.14.11")
+    implementation("com.amplifyframework:aws-api:2.14.11")
+    implementation("com.amazonaws:aws-android-sdk-apigateway-core:2.8.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation("com.amplifyframework:aws-datastore:2.16.1")
+
 }

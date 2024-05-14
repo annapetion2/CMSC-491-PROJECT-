@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "anonymousgradingapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2024-05-14T07:57:35.865Z"
+}
