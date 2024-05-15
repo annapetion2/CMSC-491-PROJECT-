@@ -10,22 +10,8 @@
     },
     "conflictResolution": {
       "defaultResolutionStrategy": {
-        "type": "AUTOMERGE"
-      },
-      "perModelResolutionStrategy": [
-        {
-          "resolutionStrategy": {
-            "type": "AUTOMERGE"
-          },
-          "entityName": "Exambarcode"
-        },
-        {
-          "resolutionStrategy": {
-            "type": "AUTOMERGE"
-          },
-          "entityName": "Todo"
-        }
-      ]
+        "type": "NONE"
+      }
     },
     "additionalAuthTypes": [
       {

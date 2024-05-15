@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,8 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Examgrade;
+import com.amplifyframework.datastore.generated.model.Todo;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.util.Random;
 
 public class MainActivity4 extends AppCompatActivity implements View.OnClickListener{
     private Button scan_button;
@@ -71,6 +78,20 @@ public class MainActivity4 extends AppCompatActivity implements View.OnClickList
             GlobalVariable.scanned_course.add(course_position); //add course #
             GlobalVariable.scanned_exam.add(exam_position); //add exam #
             GlobalVariable.scanned_ID.add(splitted[0]); //add ID
+
+            final int random = new Random().nextInt(101);
+
+            Examgrade grade = Examgrade.builder()
+                    .course(GlobalVariable.courseList.get(course_position).getName())
+                    .exam(GlobalVariable.courseList.get(course_position).exams.get(exam_position).getName())
+                    .grade(random)
+                    .studentid(splitted[0])
+                    .build();
+            Amplify.API.mutate(
+                    ModelMutation.create(grade),
+                    response -> Log.i("GraphQL", "Added Todo with id: " + response.getData().getId()),
+                    error -> Log.e("GraphQL", "Create failed", error)
+            );
 
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override

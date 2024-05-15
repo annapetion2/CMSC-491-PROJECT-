@@ -1,3 +1,11 @@
+type Examgrade @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  course: String
+  exam: String
+  grade: Int
+  studentid: String
+}
+
 type Exambarcode @model @auth(rules: [{allow: public}]) {
   id: ID!
   course: String
