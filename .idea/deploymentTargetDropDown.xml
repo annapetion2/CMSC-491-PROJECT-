@@ -7,18 +7,18 @@
       </entry>
       <entry key="app">
         <State>
-          <targetSelectedWithDropDown>
+          <runningDeviceTargetSelectedWithDropDown>
             <Target>
-              <type value="QUICK_BOOT_TARGET" />
+              <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\criss\.android\avd\Pixel_7_Pro_API_UpsideDownCakePrivacySandbox.avd" />
+                  <type value="SERIAL_NUMBER" />
+                  <value value="KAAIKN05R463BBY" />
                 </Key>
               </deviceKey>
             </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-15T03:01:45.820340100Z" />
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-05-15T03:27:47.163822300Z" />
         </State>
       </entry>
     </value>
