@@ -9,7 +9,10 @@ import java.util.Objects;
 
 import androidx.core.util.ObjectsCompat;
 
+import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.ModelOperation;
+import com.amplifyframework.core.model.annotations.AuthRule;
 import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
@@ -19,16 +22,18 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Todo type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Todos", type = Model.Type.USER, version = 1)
+@ModelConfig(pluralName = "Todos", type = Model.Type.USER, version = 1, authRules = {
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
+})
 public final class Todo implements Model {
   public static final QueryField ID = field("Todo", "id");
-  public static final QueryField STUDENTID = field("Todo", "studentid");
   public static final QueryField FNAME = field("Todo", "fname");
   public static final QueryField LNAME = field("Todo", "lname");
+  public static final QueryField STUDENTID = field("Todo", "studentid");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="ID", isRequired = true) String studentid;
   private final @ModelField(targetType="String", isRequired = true) String fname;
   private final @ModelField(targetType="String") String lname;
+  private final @ModelField(targetType="ID", isRequired = true) String studentid;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   /** @deprecated This API is internal to Amplify and should not be used. */
@@ -41,16 +46,16 @@ public final class Todo implements Model {
       return id;
   }
   
-  public String getStudentid() {
-      return studentid;
-  }
-  
   public String getFname() {
       return fname;
   }
   
   public String getLname() {
       return lname;
+  }
+  
+  public String getStudentid() {
+      return studentid;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -61,11 +66,11 @@ public final class Todo implements Model {
       return updatedAt;
   }
   
-  private Todo(String id, String studentid, String fname, String lname) {
+  private Todo(String id, String fname, String lname, String studentid) {
     this.id = id;
-    this.studentid = studentid;
     this.fname = fname;
     this.lname = lname;
+    this.studentid = studentid;
   }
   
   @Override
@@ -77,9 +82,9 @@ public final class Todo implements Model {
       } else {
       Todo todo = (Todo) obj;
       return ObjectsCompat.equals(getId(), todo.getId()) &&
-              ObjectsCompat.equals(getStudentid(), todo.getStudentid()) &&
               ObjectsCompat.equals(getFname(), todo.getFname()) &&
               ObjectsCompat.equals(getLname(), todo.getLname()) &&
+              ObjectsCompat.equals(getStudentid(), todo.getStudentid()) &&
               ObjectsCompat.equals(getCreatedAt(), todo.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), todo.getUpdatedAt());
       }
@@ -89,9 +94,9 @@ public final class Todo implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getStudentid())
       .append(getFname())
       .append(getLname())
+      .append(getStudentid())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -103,16 +108,16 @@ public final class Todo implements Model {
     return new StringBuilder()
       .append("Todo {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("studentid=" + String.valueOf(getStudentid()) + ", ")
       .append("fname=" + String.valueOf(getFname()) + ", ")
       .append("lname=" + String.valueOf(getLname()) + ", ")
+      .append("studentid=" + String.valueOf(getStudentid()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
   
-  public static StudentidStep builder() {
+  public static FnameStep builder() {
       return new Builder();
   }
   
@@ -135,17 +140,17 @@ public final class Todo implements Model {
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      studentid,
       fname,
-      lname);
+      lname,
+      studentid);
   }
-  public interface StudentidStep {
-    FnameStep studentid(String studentid);
+  public interface FnameStep {
+    StudentidStep fname(String fname);
   }
   
 
-  public interface FnameStep {
-    BuildStep fname(String fname);
+  public interface StudentidStep {
+    BuildStep studentid(String studentid);
   }
   
 
@@ -156,20 +161,20 @@ public final class Todo implements Model {
   }
   
 
-  public static class Builder implements StudentidStep, FnameStep, BuildStep {
+  public static class Builder implements FnameStep, StudentidStep, BuildStep {
     private String id;
-    private String studentid;
     private String fname;
+    private String studentid;
     private String lname;
     public Builder() {
       
     }
     
-    private Builder(String id, String studentid, String fname, String lname) {
+    private Builder(String id, String fname, String lname, String studentid) {
       this.id = id;
-      this.studentid = studentid;
       this.fname = fname;
       this.lname = lname;
+      this.studentid = studentid;
     }
     
     @Override
@@ -178,22 +183,22 @@ public final class Todo implements Model {
         
         return new Todo(
           id,
-          studentid,
           fname,
-          lname);
+          lname,
+          studentid);
     }
     
     @Override
-     public FnameStep studentid(String studentid) {
-        Objects.requireNonNull(studentid);
-        this.studentid = studentid;
+     public StudentidStep fname(String fname) {
+        Objects.requireNonNull(fname);
+        this.fname = fname;
         return this;
     }
     
     @Override
-     public BuildStep fname(String fname) {
-        Objects.requireNonNull(fname);
-        this.fname = fname;
+     public BuildStep studentid(String studentid) {
+        Objects.requireNonNull(studentid);
+        this.studentid = studentid;
         return this;
     }
     
@@ -215,20 +220,20 @@ public final class Todo implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String studentid, String fname, String lname) {
-      super(id, studentid, fname, lname);
-      Objects.requireNonNull(studentid);
+    private CopyOfBuilder(String id, String fname, String lname, String studentid) {
+      super(id, fname, lname, studentid);
       Objects.requireNonNull(fname);
-    }
-    
-    @Override
-     public CopyOfBuilder studentid(String studentid) {
-      return (CopyOfBuilder) super.studentid(studentid);
+      Objects.requireNonNull(studentid);
     }
     
     @Override
      public CopyOfBuilder fname(String fname) {
       return (CopyOfBuilder) super.fname(fname);
+    }
+    
+    @Override
+     public CopyOfBuilder studentid(String studentid) {
+      return (CopyOfBuilder) super.studentid(studentid);
     }
     
     @Override

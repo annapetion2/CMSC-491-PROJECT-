@@ -1,5 +1,20 @@
 {
     "Version": 5,
     "ElasticsearchWarning": true,
-    "ResolverConfig": {}
+    "ResolverConfig": {
+        "project": {
+            "ConflictHandler": "AUTOMERGE",
+            "ConflictDetection": "VERSION"
+        },
+        "models": {
+            "Exambarcode": {
+                "ConflictHandler": "AUTOMERGE",
+                "ConflictDetection": "VERSION"
+            },
+            "Todo": {
+                "ConflictHandler": "AUTOMERGE",
+                "ConflictDetection": "VERSION"
+            }
+        }
+    }
 }

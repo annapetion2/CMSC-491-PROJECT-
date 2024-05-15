@@ -1,5 +1,56 @@
 # this is an auto generated file. This will be overwritten
 
+mutation CreateExambarcode(
+  $input: CreateExambarcodeInput!
+  $condition: ModelExambarcodeConditionInput
+) {
+  createExambarcode(input: $input, condition: $condition) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
+mutation UpdateExambarcode(
+  $input: UpdateExambarcodeInput!
+  $condition: ModelExambarcodeConditionInput
+) {
+  updateExambarcode(input: $input, condition: $condition) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
+mutation DeleteExambarcode(
+  $input: DeleteExambarcodeInput!
+  $condition: ModelExambarcodeConditionInput
+) {
+  deleteExambarcode(input: $input, condition: $condition) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
 mutation CreateTodo(
   $input: CreateTodoInput!
   $condition: ModelTodoConditionInput
@@ -11,6 +62,9 @@ mutation CreateTodo(
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }
@@ -26,6 +80,9 @@ mutation UpdateTodo(
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }
@@ -41,6 +98,9 @@ mutation DeleteTodo(
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }

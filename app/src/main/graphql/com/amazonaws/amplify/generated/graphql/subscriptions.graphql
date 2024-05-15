@@ -1,5 +1,53 @@
 # this is an auto generated file. This will be overwritten
 
+subscription OnCreateExambarcode(
+  $filter: ModelSubscriptionExambarcodeFilterInput
+) {
+  onCreateExambarcode(filter: $filter) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
+subscription OnUpdateExambarcode(
+  $filter: ModelSubscriptionExambarcodeFilterInput
+) {
+  onUpdateExambarcode(filter: $filter) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
+subscription OnDeleteExambarcode(
+  $filter: ModelSubscriptionExambarcodeFilterInput
+) {
+  onDeleteExambarcode(filter: $filter) {
+    id
+    course
+    barcodestring
+    createdAt
+    updatedAt
+    _version
+    _deleted
+    _lastChangedAt
+    __typename
+  }
+}
+
 subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
   onCreateTodo(filter: $filter) {
     id
@@ -8,6 +56,9 @@ subscription OnCreateTodo($filter: ModelSubscriptionTodoFilterInput) {
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }
@@ -20,6 +71,9 @@ subscription OnUpdateTodo($filter: ModelSubscriptionTodoFilterInput) {
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }
@@ -32,6 +86,9 @@ subscription OnDeleteTodo($filter: ModelSubscriptionTodoFilterInput) {
     studentid
     createdAt
     updatedAt
+    _version
+    _deleted
+    _lastChangedAt
     __typename
   }
 }

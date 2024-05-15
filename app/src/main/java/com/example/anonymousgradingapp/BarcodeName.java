@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +15,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Exambarcode;
+import com.amplifyframework.datastore.generated.model.Todo;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -118,6 +123,18 @@ public class BarcodeName extends AppCompatActivity implements View.OnClickListen
                             String ID = GlobalVariable.courseList.get(course_pos)
                                     .studentList.get(i).ID;
                             Bitmap bitmap = generateQR(ID + " " + course_pos + " " + exam_pos);
+
+                            String barcodestring = ID + " " + course_pos + " " + exam_pos;
+
+                            Exambarcode barcodestore = Exambarcode.builder()
+                                    .course(GlobalVariable.courseList.get(course_pos).getName())
+                                    .barcodestring(barcodestring)
+                                    .build();
+                            Amplify.API.mutate(
+                                    ModelMutation.create(barcodestore),
+                                    response -> Log.i("GraphQL", "Added Todo with id: " + response.getData().getId()),
+                                    error -> Log.e("GraphQL", "Create failed", error)
+                            );
 
                             //need to fix edge case, where if you generate barcodes for an exam
                             //that is sequentially further than other exams, if you go back and

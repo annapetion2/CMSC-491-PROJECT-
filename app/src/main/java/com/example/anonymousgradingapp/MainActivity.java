@@ -19,6 +19,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Todo;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -157,6 +161,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Log.d("MainAcitivty", line[0]);
                                     Log.d("MainAcitivty", line[1]);
                                     Log.d("MainAcitivty", line[2]);
+
+
+                                    Todo todo = Todo.builder()
+                                            .fname(newStudent.fname)
+                                            .studentid(newStudent.ID)
+                                            .lname(newStudent.lname)
+                                            .build();
+                                    Amplify.API.mutate(
+                                            ModelMutation.create(todo),
+                                            response -> Log.i("GraphQL", "Added Todo with id: " + response.getData().getId()),
+                                            error -> Log.e("GraphQL", "Create failed", error)
+                                    );
                                     GlobalVariable.courseList.get(course_pos).studentList.add(newStudent);
                                 }
                             } catch (CsvValidationException e) {

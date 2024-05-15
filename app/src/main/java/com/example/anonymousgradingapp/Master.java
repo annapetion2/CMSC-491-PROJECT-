@@ -57,20 +57,6 @@ public class Master extends AppCompatActivity implements View.OnClickListener{
         Bundle bundle = new Bundle();
         bundle.putSerializable("LIST",(Serializable)courseList);
 
-        Todo todo = Todo.builder()
-                .studentid("Test123")
-                .fname("My first todo")
-                .lname("Whatever the to do is")
-                .build();
-        Amplify.API.mutate(
-                ModelMutation.create(todo),
-                response -> Log.i("GraphQL","response: " +response),
-                error -> Log.e("GraphQL", "error: "+error));
-        Amplify.API.query(
-                ModelQuery.get(Todo.class,""),
-                response -> Log.i("GraphQL","response: " +response),
-                error -> Log.e("GraphQL", "error: "+error));
-
         logout_button.setOnClickListener(this);
 
         course_button.setOnClickListener(new View.OnClickListener() {

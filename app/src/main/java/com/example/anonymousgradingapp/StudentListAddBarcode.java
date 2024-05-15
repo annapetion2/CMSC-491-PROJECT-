@@ -1,9 +1,14 @@
 package com.example.anonymousgradingapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Exambarcode;
+import com.amplifyframework.datastore.generated.model.Todo;
 
 public class StudentListAddBarcode extends AppCompatActivity {
     private ListView listview_;
@@ -24,5 +29,6 @@ public class StudentListAddBarcode extends AppCompatActivity {
 
             listview_.setAdapter(listAdapter);
         }
+
     }
 }
